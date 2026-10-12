@@ -1,15 +1,17 @@
 import Feed from "@/comp/feed/page";
 import Profile from "@/comp/profile/page";
 import Link from "next/link";
+import AddResource from "@/comp/add-resource/page";
+import { Suspense } from "react";
 
-export default function Home() {
+export default async function Home() {
   return (
-    <div className="min-h-screen bg-slate-950 px-4 py-6 text-slate-100 flex flex-col">
-      
-      {/* Mobile Navigation / Action Bar (Only visible on screens smaller than md) */}
+    <div className="min-h-screen bg-slate-950 px-4 py-6 text-slate-100 flex flex-col relative">
+
+      {/* Mobile Button */}
       <nav className="block md:hidden mb-6 flex justify-center">
-        <Link 
-          href="./add-resource" 
+        <Link
+          href="/?modal=add-resource"
           className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-blue-600 hover:bg-blue-500 active:bg-blue-700 text-white font-medium text-sm transition shadow-lg shadow-blue-600/20 border border-blue-500/30"
         >
           <span>➕</span> Add Resource
@@ -26,6 +28,11 @@ export default function Home() {
           <Profile />
         </aside>
       </div>
+      <Suspense fallback={null}>
+        <AddResource />
+      </Suspense>
     </div>
   );
 }
+
+// Moves the URL listening over to the client side, letting the server component do its static job without crashing.

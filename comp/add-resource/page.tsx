@@ -2,39 +2,41 @@
 
 import Link from "next/link";
 import { useState } from "react";
+import { useSearchParams } from "next/navigation";
 
 export default function AddResource() {
     const [url, setUrl] = useState("");
+    const searchParams = useSearchParams();
+    
+    // Check if the URL query parameter says to open this modal
+    const isModalOpen = searchParams.get("modal") === "add-resource";
 
     const handleSubmit = (e: any) => {
         e.preventDefault();
-        // Add your submission logic or API call here
         console.log("Submitted URL:", url);
     };
 
-    return (
-       <div className="min-h-screen bg-slate-950 px-4 py-8 text-slate-100 flex flex-col items-center justify-center">
-        <div className="w-full max-w-md">
-            
-            {/* Back Link */}
-            <div className="mb-6">
-                <Link 
-                    href="/" 
-                    className="inline-flex items-center gap-2 text-sm text-slate-400 hover:text-slate-200 transition"
-                >
-                    ← Back to Feed
-                </Link>
-            </div>
+    // If the modal query param is not present, don't render anything
+    if (!isModalOpen) return null;
 
-            {/* Form Card Container */}
-            <div className="rounded-2xl bg-slate-900 border border-slate-800 p-6 md:p-8 shadow-xl">
-                <div className="mb-6">
+    return (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4">
+            <div className="relative w-full max-w-lg bg-slate-900 border border-slate-800 rounded-xl p-6 md:p-8 shadow-2xl">
+                
+                {/* Close Button that clears the URL parameter back to root */}
+                <Link
+                    href="/"
+                    className="absolute top-4 right-4 text-slate-400 hover:text-white text-lg font-bold p-2 z-10"
+                >
+                    ✕
+                </Link>
+
+                <div className="mb-6 pr-6">
                     <h1 className="text-2xl font-bold tracking-tight text-white mb-2">Add New Resource</h1>
                     <p className="text-sm text-slate-400">Paste your link below to share or add it to your resource collection.</p>
                 </div>
 
                 <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-                    {/* Changed space-y-13 (which is invalid in Tailwind) to space-y-2 */}
                     <div className="space-y-2">
                         <label className="text-xs font-medium text-slate-300 uppercase tracking-wider block">
                             Resource URL
@@ -49,7 +51,7 @@ export default function AddResource() {
                         />
                     </div>
 
-                    <button 
+                    <button
                         type="submit"
                         className="w-full bg-blue-600 hover:bg-blue-500 active:bg-blue-700 text-white font-medium py-3 rounded-xl text-sm transition shadow-lg shadow-blue-600/20 mt-2"
                     >
@@ -57,8 +59,6 @@ export default function AddResource() {
                     </button>
                 </form>
             </div>
-
         </div>
-    </div>
     );
 }

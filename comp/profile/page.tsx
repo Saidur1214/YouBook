@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from "react";
+import LogoutButton from "../auth/log-out";
 
 export default function Profile() {
     const [url, setUrl] = useState("");
@@ -27,7 +28,7 @@ export default function Profile() {
             {/* URL Submission Form */}
             <div className="rounded-2xl bg-slate-900 border border-slate-800 p-6 shadow-lg">
                 <h4 className="font-medium text-slate-200 mb-3 text-sm">Add Resource</h4>
-                <form onSubmit={handleSubmit} className="flex flex-col gap-3">
+                <form onSubmit={handleSubmit} className="flex flex-col gap-3 my-3">
                     <input 
                         type="url"
                         value={url}
@@ -43,6 +44,7 @@ export default function Profile() {
                         Submit
                     </button>
                 </form>
+                <LogoutButton />
             </div>
         </div>
     );
